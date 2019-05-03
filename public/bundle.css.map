@@ -5,8 +5,8 @@
     "../src/App.svelte"
   ],
   "sourcesContent": [
-    "<script>\n\texport let name;\n</script>\n\n<style>\n\th1 {\n\t\tcolor: purple;\n\t}\n</style>\n\n<h1>Hello {name}!</h1>\n"
+    "<script>\n\texport let name;\n</script>\n\n<style>\n\th1 {\n\t  color: purple;\n\t}\n</style>\n\n<h1>Hello {name}!</h1>\n\n<link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css\" integrity=\"sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T\" crossorigin=\"anonymous\">"
   ],
   "names": [],
-  "mappings": "AAKC,EAAE,cAAC,CAAC,AACH,KAAK,CAAE,MAAM,AACd,CAAC"
+  "mappings": "AAKC,EAAE,eAAC,CAAC,AACF,KAAK,CAAE,MAAM,AACf,CAAC"
 }

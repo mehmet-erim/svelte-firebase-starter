@@ -51,13 +51,17 @@ var app = (function () {
 		return document.createTextNode(data);
 	}
 
-	function children(element) {
-		return Array.from(element.childNodes);
+	function space() {
+		return text(' ');
 	}
 
-	function set_data(text, data) {
-		data = '' + data;
-		if (text.data !== data) text.data = data;
+	function attr(node, attribute, value) {
+		if (value == null) node.removeAttribute(attribute);
+		else node.setAttribute(attribute, value);
+	}
+
+	function children(element) {
+		return Array.from(element.childNodes);
 	}
 
 	let current_component;
@@ -277,16 +281,30 @@ var app = (function () {
 	const file = "src/App.svelte";
 
 	function create_fragment(ctx) {
-		var h1, t0, t1, t2;
+		var nav, a, img, t, link;
 
 		return {
 			c: function create() {
-				h1 = element("h1");
-				t0 = text("Hello ");
-				t1 = text(ctx.name);
-				t2 = text("!");
-				h1.className = "svelte-i7qo5m";
-				add_location(h1, file, 10, 0, 82);
+				nav = element("nav");
+				a = element("a");
+				img = element("img");
+				t = space();
+				link = element("link");
+				img.src = "https://svelte.dev/svelte-logo-horizontal.svg";
+				img.width = "150";
+				img.height = "50";
+				img.alt = "Svelte";
+				add_location(img, file, 6, 4, 127);
+				a.className = "navbar-brand";
+				a.href = "#";
+				add_location(a, file, 5, 2, 89);
+				nav.className = "navbar navbar-light bg-light";
+				add_location(nav, file, 4, 0, 44);
+				link.rel = "stylesheet";
+				link.href = "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css";
+				attr(link, "integrity", "sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T");
+				attr(link, "crossorigin", "anonymous");
+				add_location(link, file, 11, 0, 251);
 			},
 
 			l: function claim(nodes) {
@@ -294,68 +312,40 @@ var app = (function () {
 			},
 
 			m: function mount(target, anchor) {
-				insert(target, h1, anchor);
-				append(h1, t0);
-				append(h1, t1);
-				append(h1, t2);
+				insert(target, nav, anchor);
+				append(nav, a);
+				append(a, img);
+				insert(target, t, anchor);
+				append(document.head, link);
 			},
 
-			p: function update(changed, ctx) {
-				if (changed.name) {
-					set_data(t1, ctx.name);
-				}
-			},
-
+			p: noop,
 			i: noop,
 			o: noop,
 
 			d: function destroy(detaching) {
 				if (detaching) {
-					detach(h1);
+					detach(nav);
+					detach(t);
 				}
+
+				detach(link);
 			}
 		};
-	}
-
-	function instance($$self, $$props, $$invalidate) {
-		let { name } = $$props;
-
-		$$self.$set = $$props => {
-			if ('name' in $$props) $$invalidate('name', name = $$props.name);
-		};
-
-		return { name };
 	}
 
 	class App extends SvelteComponentDev {
 		constructor(options) {
 			super(options);
-			init(this, options, instance, create_fragment, safe_not_equal, ["name"]);
-
-			const { ctx } = this.$$;
-			const props = options.props || {};
-			if (ctx.name === undefined && !('name' in props)) {
-				console.warn("<App> was created without expected prop 'name'");
-			}
-		}
-
-		get name() {
-			throw new Error("<App>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
-		}
-
-		set name(value) {
-			throw new Error("<App>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+			init(this, options, null, create_fragment, safe_not_equal, []);
 		}
 	}
 
-	const app = new App({
-		target: document.body,
-		props: {
-			name: 'world'
-		}
+	var main = new App({
+	  target: document.body
 	});
 
-	return app;
+	return main;
 
 }());
 //# sourceMappingURL=bundle.js.map
