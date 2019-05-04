@@ -2,11 +2,11 @@
   "version": 3,
   "file": "bundle.css",
   "sources": [
-    "../src/App.svelte"
+    "../src/components/List.svelte"
   ],
   "sourcesContent": [
-    "<script>\n\texport let name;\n</script>\n\n<style>\n\th1 {\n\t  color: purple;\n\t}\n</style>\n\n<h1>Hello {name}!</h1>\n\n<link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css\" integrity=\"sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T\" crossorigin=\"anonymous\">"
+    "<script>\n  import Modal from \"./Modal.svelte\";\n\n  const customers = [\n    {\n      id: 1,\n      name: \"Mark\",\n      email: \"Otto@markotto.com\",\n      phone: \"+231323232321\"\n    }\n  ];\n\n  let showModal;\n</script>\n\n<style>\n  :global(.text-center) {\n    text-align: center;\n  }\n</style>\n\n<table class=\"table\">\n\t<thead class=\"thead-dark\">\n\t\t<tr>\n\t\t\t<th scope=\"col\">#</th>\n\t\t\t<th scope=\"col\">Name</th>\n\t\t\t<th scope=\"col\">Email</th>\n\t\t\t<th scope=\"col\">Phone</th>\n\t\t\t<th scope=\"col\" class=\"text-center\">\n\t\t\t\t<img src=\"https://img.icons8.com/color/26/000000/plus.png\" alt=\"add-customer\">\n\t\t\t</th>\n\t\t</tr>\n\t</thead>\n\t<tbody>\n    \t{#each customers as {id, name, email, phone}}\n\t\t<tr>\n\t\t\t<th scope=\"row\">{id}</th>\n\t\t\t<td>{name}</td>\n\t\t\t<td>{email}</td>\n\t\t\t<td>{phone}</td>\n\t\t\t<td class=\"text-center\">\n            <button class=\"btn btn-sm btn-primary\">Edit</button> \n            <button class=\"ml-1 btn btn-sm btn-danger\">Remove</button></td>\n\t\t</tr>\n\t{/each}\n\t</tbody>\n</table>\n\n  <Modal bind:visible={showModal}/>\n"
   ],
   "names": [],
-  "mappings": "AAKC,EAAE,eAAC,CAAC,AACF,KAAK,CAAE,MAAM,AACf,CAAC"
+  "mappings": "AAgBU,YAAY,AAAE,CAAC,AACrB,UAAU,CAAE,MAAM,AACpB,CAAC"
 }
