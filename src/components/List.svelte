@@ -11,6 +11,10 @@
   ];
 
   let showModal;
+
+  function onClickAdd() {
+    showModal = true;
+  }
 </script>
 
 <style>
@@ -21,18 +25,18 @@
 
 <table class="table">
 	<thead class="thead-dark">
-		<tr>
+	<tr>
 			<th scope="col">#</th>
 			<th scope="col">Name</th>
 			<th scope="col">Email</th>
 			<th scope="col">Phone</th>
 			<th scope="col" class="text-center">
-				<img src="https://img.icons8.com/color/26/000000/plus.png" alt="add-customer">
+				<img src="https://img.icons8.com/color/26/000000/plus.png" alt="add-customer" on:click={onClickAdd}>
 			</th>
 		</tr>
 	</thead>
 	<tbody>
-    	{#each customers as {id, name, email, phone}}
+    {#each customers as {id, name, email, phone}}
 		<tr>
 			<th scope="row">{id}</th>
 			<td>{name}</td>
