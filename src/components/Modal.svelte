@@ -1,10 +1,13 @@
 <script>
 	import { onDestroy } from "svelte";
 	import { fade } from "svelte/transition";
+	import { fromEvent, Subject } from "rxjs";
+	import { filter, takeUntil } from "rxjs/operators";
 
 	export let visible;
 	export let center = false;
-	export let size = "md";
+	export const size = "md";
+	export const destroy$ = new Subject();
 
 	let timeout;
 
@@ -12,13 +15,21 @@
 	  timeout = setTimeout(() => (visible = false), 300);
 	}
 
-	function open() {
-	  visible = true;
-	}
-
 	function clear() {
 	  setTimeout(() => clearTimeout(timeout), 100);
 	}
+
+	onDestroy(() => {
+	  destroy$.next();
+	  destroy$.complete();
+	});
+
+	fromEvent(document, "keyup")
+	  .pipe(
+	    filter(({ keyCode }) => keyCode === 27),
+	    takeUntil(destroy$)
+	  )
+	  .subscribe(() => (visible = false));
 </script>
 
 <style>
