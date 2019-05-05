@@ -713,9 +713,9 @@ var app = (function () {
 	const get_header_slot_changes = ({}) => ({});
 	const get_header_slot_context = ({}) => ({});
 
-	// (21:0) {#if visible}
+	// (30:0) {#if visible}
 	function create_if_block(ctx) {
-		var div5, div4, div3, div0, t0, button0, span, t2, div1, t3, div2, button1, dispose_footer_slot, div3_transition, current, dispose;
+		var div5, div4, div3, div0, t0, button0, span, t2, div1, t3, div2, button1, dispose_footer_slot, div3_transition, div4_class_value, current, dispose;
 
 		const header_slot_1 = ctx.$$slots.header;
 		const header_slot = create_slot(header_slot_1, ctx, get_header_slot_context);
@@ -753,36 +753,35 @@ var app = (function () {
 				if (footer_slot) footer_slot.c();
 
 				attr(span, "aria-hidden", "true");
-				add_location(span, file, 27, 5, 700);
+				add_location(span, file, 36, 5, 851);
 				button0.type = "button";
 				button0.className = "close";
-				add_location(button0, file, 26, 4, 625);
-				div0.className = "modal-header";
-				add_location(div0, file, 24, 3, 561);
+				add_location(button0, file, 35, 4, 776);
+				div0.className = "modal-header svelte-jnk09b";
+				add_location(div0, file, 33, 3, 712);
 
-				div1.className = "modal-body";
-				add_location(div1, file, 30, 3, 767);
+				div1.className = "modal-body svelte-jnk09b";
+				add_location(div1, file, 39, 3, 918);
 
 				if (!footer_slot) {
 					button1.type = "button";
 					button1.className = "btn btn-secondary";
-					add_location(button1, file, 35, 4, 878);
+					add_location(button1, file, 44, 4, 1029);
 					dispose_footer_slot = listen(button1, "click", ctx.close);
 				}
 
-				div2.className = "modal-footer";
-				add_location(div2, file, 33, 3, 823);
-				div3.id = "modal";
-				div3.className = "modal-content";
-				add_location(div3, file, 23, 2, 486);
-				div4.className = "modal-dialog";
-				attr(div4, "role", "document");
-				add_location(div4, file, 22, 1, 441);
-				div5.className = "modal d-block";
+				div2.className = "modal-footer svelte-jnk09b";
+				add_location(div2, file, 42, 3, 974);
+				div3.className = "modal-content svelte-jnk09b";
+				add_location(div3, file, 32, 2, 648);
+				div4.className = div4_class_value = "modal-dialog modal-" + ctx.size + " svelte-jnk09b";
+				toggle_class(div4, "modal-dialog-centered", ctx.center);
+				add_location(div4, file, 31, 1, 567);
+				div5.className = "modal d-block svelte-jnk09b";
 				div5.tabIndex = "-1";
 				attr(div5, "role", "dialog");
 				toggle_class(div5, "show", ctx.visible);
-				add_location(div5, file, 21, 0, 344);
+				add_location(div5, file, 30, 0, 470);
 
 				dispose = [
 					listen(button0, "click", ctx.click_handler),
@@ -844,6 +843,14 @@ var app = (function () {
 
 				if (footer_slot && footer_slot.p && changed.$$scope) {
 					footer_slot.p(get_slot_changes(footer_slot_1, ctx, changed, get_footer_slot_changes), get_slot_context(footer_slot_1, ctx, get_footer_slot_context));
+				}
+
+				if ((!current || changed.size) && div4_class_value !== (div4_class_value = "modal-dialog modal-" + ctx.size + " svelte-jnk09b")) {
+					div4.className = div4_class_value;
+				}
+
+				if ((changed.size || changed.center)) {
+					toggle_class(div4, "modal-dialog-centered", ctx.center);
 				}
 
 				if (changed.visible) {
@@ -968,7 +975,8 @@ var app = (function () {
 	function instance($$self, $$props, $$invalidate) {
 		
 
-		let { visible } = $$props;
+		let { visible, center = false, size = "md" } = $$props;
+
 		let timeout;
 
 		function close() {
@@ -989,11 +997,15 @@ var app = (function () {
 
 		$$self.$set = $$props => {
 			if ('visible' in $$props) $$invalidate('visible', visible = $$props.visible);
+			if ('center' in $$props) $$invalidate('center', center = $$props.center);
+			if ('size' in $$props) $$invalidate('size', size = $$props.size);
 			if ('$$scope' in $$props) $$invalidate('$$scope', $$scope = $$props.$$scope);
 		};
 
 		return {
 			visible,
+			center,
+			size,
 			close,
 			clear,
 			click_handler,
@@ -1005,12 +1017,18 @@ var app = (function () {
 	class Modal extends SvelteComponentDev {
 		constructor(options) {
 			super(options);
-			init(this, options, instance, create_fragment, safe_not_equal, ["visible"]);
+			init(this, options, instance, create_fragment, safe_not_equal, ["visible", "center", "size"]);
 
 			const { ctx } = this.$$;
 			const props = options.props || {};
 			if (ctx.visible === undefined && !('visible' in props)) {
 				console.warn("<Modal> was created without expected prop 'visible'");
+			}
+			if (ctx.center === undefined && !('center' in props)) {
+				console.warn("<Modal> was created without expected prop 'center'");
+			}
+			if (ctx.size === undefined && !('size' in props)) {
+				console.warn("<Modal> was created without expected prop 'size'");
 			}
 		}
 
@@ -1019,6 +1037,22 @@ var app = (function () {
 		}
 
 		set visible(value) {
+			throw new Error("<Modal>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+		}
+
+		get center() {
+			throw new Error("<Modal>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+		}
+
+		set center(value) {
+			throw new Error("<Modal>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+		}
+
+		get size() {
+			throw new Error("<Modal>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+		}
+
+		set size(value) {
 			throw new Error("<Modal>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
 		}
 	}
@@ -1119,7 +1153,7 @@ var app = (function () {
 				h3 = element("h3");
 				h3.textContent = "Modal Header";
 				attr(h3, "slot", "header");
-				add_location(h3, file$1, 53, 1, 1082);
+				add_location(h3, file$1, 53, 1, 1110);
 			},
 
 			m: function mount(target, anchor) {
@@ -1134,7 +1168,7 @@ var app = (function () {
 		};
 	}
 
-	// (53:2) <Modal bind:visible={showModal}>
+	// (53:2) <Modal bind:visible={showModal} size={'sm'} center="{true}">
 	function create_default_slot(ctx) {
 		var t;
 
@@ -1177,6 +1211,8 @@ var app = (function () {
 		}
 
 		let modal_props = {
+			size: 'sm',
+			center: true,
 			$$slots: {
 			default: [create_default_slot],
 			header: [create_header_slot]

@@ -3,6 +3,9 @@
 	import { fade } from "svelte/transition";
 
 	export let visible;
+	export let center = false;
+	export let size = "md";
+
 	let timeout;
 
 	function close() {
@@ -18,10 +21,16 @@
 	}
 </script>
 
+<style>
+	.modal {
+	  background-color: rgba(0, 0, 0, 0.4);
+	}
+</style>
+
 {#if visible}
 <div class="modal d-block" class:show="{visible}" tabindex="-1" role="dialog" on:click={close}>
-	<div class="modal-dialog" role="document">
-		<div id="modal" class="modal-content" on:click={clear} transition:fade>
+	<div class="modal-dialog modal-{size}" class:modal-dialog-centered="{center}">
+		<div class="modal-content" on:click={clear} transition:fade>
 			<div class="modal-header">	
 				<slot name="header"></slot>
 				<button type="button" class="close" on:click={() => visible = false}>

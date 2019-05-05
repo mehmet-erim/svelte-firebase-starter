@@ -50,7 +50,7 @@
 	</tbody>
 </table>
 
-  <Modal bind:visible={showModal}>
+  <Modal bind:visible={showModal} size={'sm'} center="{true}">
 	<h3 slot="header">Modal Header</h3>
 	Modal Body
   </Modal>
