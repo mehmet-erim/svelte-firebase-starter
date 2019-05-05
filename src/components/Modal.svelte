@@ -1,56 +1,40 @@
 <script>
-		import { fromEvent, Subject } from "rxjs";
-		import { takeUntil, filter } from "rxjs/operators";
-		import { onDestroy } from "svelte";
+	import { onDestroy } from "svelte";
+	import { fade } from "svelte/transition";
 
-		export let visible;
+	export let visible;
+	let timeout;
 
-		const destroy$ = new Subject();
+	function close() {
+	  timeout = setTimeout(() => (visible = false), 300);
+	}
 
-		fromEvent(document, "click")
-		  .pipe(
-		    filter(
-		      event =>
-		        !!(
-		          event &&
-		          visible &&
-		          !document.querySelector("#modal").contains(event.target)
-		        )
-		    ),
-		    takeUntil(destroy$)
-		  )
-		  .subscribe(console.warn);
+	function open() {
+	  visible = true;
+	}
 
-		function close() {
-		  visible = false;
-		}
-
-		function open() {
-		  visible = true;
-		}
-
-		onDestroy(() => {
-		  destroy$.next();
-		  destroy$.complete();
-		});
+	function clear() {
+	  setTimeout(() => clearTimeout(timeout), 100);
+	}
 </script>
 
 {#if visible}
-<div class="modal fade d-block" class:show="{visible}" tabindex="-1" role="dialog">
+<div class="modal d-block" class:show="{visible}" tabindex="-1" role="dialog" on:click={close}>
 	<div class="modal-dialog" role="document">
-		<div id="modal" class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-				<button type="button" class="close" on:click={close}>
+		<div id="modal" class="modal-content" on:click={clear} transition:fade>
+			<div class="modal-header">	
+				<slot name="header"></slot>
+				<button type="button" class="close" on:click={() => visible = false}>
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
 			<div class="modal-body">
-				...
+				<slot></slot>
 			</div>
 			<div class="modal-footer">
+			<slot name="footer">
 				<button type="button" class="btn btn-secondary" on:click={close}>Close</button>
-				<button type="button" class="btn btn-primary">Save changes</button>
+			</slot>
 			</div>
 		</div>
 	</div>

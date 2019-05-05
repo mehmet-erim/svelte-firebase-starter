@@ -36,7 +36,7 @@
 		</tr>
 	</thead>
 	<tbody>
-    {#each customers as {id, name, email, phone}}
+    {#each customers as {id, name, email, phone} (id)}
 		<tr>
 			<th scope="row">{id}</th>
 			<td>{name}</td>
@@ -50,4 +50,7 @@
 	</tbody>
 </table>
 
-  <Modal bind:visible={showModal}/>
+  <Modal bind:visible={showModal}>
+	<h3 slot="header">Modal Header</h3>
+	Modal Body
+  </Modal>
